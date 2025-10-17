@@ -1,10 +1,13 @@
 # Student Lifestyle SQL Guidebook
 This project explores a dataset of students’ daily habits, such as study time, sleep, social life, and physical activity, to analyze their relationship with GPA and stress levels.
+
 All queries were executed using SQLite in Visual Studio Code.
 
 ## Dataset Overview
 Table 1: students
+
 This table imports a Kaggle dataset for study habits and activities of students: https://www.kaggle.com/datasets/afnansaifafnan/study-habits-and-activities-of-students
+
 About the data:
 - Student ID : A unique identifier assigned to each student.
 - Study Hours Per Day : Average number of hours in which a student spends time for studying daily.
@@ -16,6 +19,7 @@ About the data:
 - Stress Level : Stress category of the student (Low, Moderate, High).
 
 Table 2: students_age
+
 This table uses 5 rows of sample data I created to represent some students and their ages, to use for later join examples. 
 
 
@@ -76,7 +80,9 @@ SET StudyHoursPerDay = 14.0
 WHERE StudentID = 1;
 ```
 Updates the study hours to 14.0 for the student with ID 1.
+
 Used to demonstrate UPDATE statements for modifying specific records.
+
 Before Update:
 ![success](screenshots/update_before.png)
 After Update:
@@ -84,7 +90,9 @@ After Update:
 
 ## Aggregations & Filtering (SELECT, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT)
 Question:
+
 What is the average GPA of students with GPA > 3.0, grouped by stress level, limited to the top 3 stress levels with the highest average GPA?
+
 ```sql
 SELECT StressLevel, AVG(GPA) AS AverageGPA
 FROM students
@@ -95,12 +103,16 @@ ORDER BY AverageGPA DESC
 LIMIT 3;
 ```
 Demonstrates GROUP BY, HAVING, and aggregate functions (AVG) combined with filtering and ordering.
+
 ![success](screenshots/basic_query1.png)
 
 ## Joins (Inner Join and Self Join)
 a. Self Join – Compare Students with Equal Study Hours
+
 Question: 
+
 Which pairs of students have the same study hours per day?
+
 ```sql
 SELECT s1.StudentID AS Student1_ID,
        s2.StudentID AS Student2_ID,
@@ -113,6 +125,7 @@ INNER JOIN students s2
 ORDER BY s1.StudyHoursPerDay ASC, s2.StudyHoursPerDay DESC;
 ```
 Finds pairs of students with identical daily study hours.
+
 ![success](screenshots/join_query.png)
 
 b. Inner join with `students_age`
@@ -128,7 +141,9 @@ Combines data from both tables to display some students' study hours alongside t
 
 # Data Cleaning and Transformation (CASE WHEN, DELETE)
 a. Categorizing Study Hours
+
 Question: 
+
 How can we categorize students into ‘Low,’ ‘Moderate,’ and ‘High’ study hours?
 ```sql
 SELECT StudentID,
@@ -153,6 +168,7 @@ Removes any records with unrealistic GPA values.
 
 ## Window Functions and CTEs 
 Question:
+
 What is each student’s GPA along with the overall average GPA and their rank based on GPA?
 ```sql
 WITH AverageGPA AS (
@@ -165,10 +181,12 @@ SELECT StudentID, GPA, OverallAverageGPA,
 FROM AverageGPA;
 ```
 Uses a Common Table Expression (CTE) and window functions (AVG OVER(), RANK) to compute rankings and overall averages.
+
 ![success](screenshots/window_cte_query.png)
 
 ## Handling Missing Values with COALESCE
 Question:
+
 How can we replace NULL values in ExtracurricularHoursPerDay with the column’s average value?
 ```sql
 SELECT 
@@ -187,11 +205,14 @@ The COALESCE function substitutes nulls with a default—in this case, the avera
 
 ## Comparing Rows with LEAD
 Question:
+
 What is each student’s GPA along with the GPA of the next student (ordered descending by GPA)?
+
 ```sql
 SELECT StudentID, GPA,
        LEAD(GPA) OVER (ORDER BY GPA DESC) AS NextStudentGPA
 FROM students;
 ```
 Uses the LEAD() window function to compare adjacent rows (students) and observe differences between consecutive GPAs.
+
 ![success](screenshots/window_lag_query.png)
