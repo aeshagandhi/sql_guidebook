@@ -25,11 +25,13 @@ CREATE TABLE students (
     GPA FLOAT,
     StressLevel VARCHAR(10)
 );
+DROP TABLE IF EXISTS students_age;
 
 -- create a new table and make up sample data made up of 5 rows
 CREATE TABLE students_age (
     StudentID INT PRIMARY KEY,
-    Age INT
+    Age INT CHECK (Age BETWEEN 15 AND 100),
+    FOREIGN KEY (StudentID) REFERENCES students(StudentID)
 );
 INSERT INTO students_age (StudentID, Age) VALUES
 (1, 20),

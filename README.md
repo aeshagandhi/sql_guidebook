@@ -37,14 +37,25 @@ CREATE TABLE students (
     StressLevel VARCHAR(10)
 );
 ```
+Design Highlights
+- StudentID is the primary key, enforcing entity uniqueness.
+- FLOAT data types capture continuous measures such as study and sleep hours.
+- StressLevel uses a limited string type to capture categorical data (Low, Moderate, High).
+- Each column reflects an atomic attribute, ensuring 1NF (First Normal Form) compliance.
 Creates the main table to store the student lifestyle dataset.
 
 ```sql
 CREATE TABLE students_age (
     StudentID INT PRIMARY KEY,
-    Age INT
+    Age INT CHECK (Age BETWEEN 15 AND 100),
+    FOREIGN KEY (StudentID) REFERENCES students(StudentID)
 );
 ```
+Design Highlights
+- Establishes a one-to-one relationship with the students table via StudentID.
+- Adds demographic context without redundancy, demonstrating 2NF normalization.
+- A FOREIGN KEY constraint enforces referential integrity between tables.
+- The CHECK constraint validates realistic age ranges.
 Creates a supplementary table linking each StudentID to an Age.
 ![success](screenshots/successful_tables.png)
 
