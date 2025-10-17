@@ -42,6 +42,7 @@ Design Highlights
 - FLOAT data types capture continuous measures such as study and sleep hours.
 - StressLevel uses a limited string type to capture categorical data (Low, Moderate, High).
 - Each column reflects an atomic attribute, ensuring 1NF (First Normal Form) compliance.
+
 Creates the main table to store the student lifestyle dataset.
 
 ```sql
@@ -56,6 +57,7 @@ Design Highlights
 - Adds demographic context without redundancy, demonstrating 2NF normalization.
 - A FOREIGN KEY constraint enforces referential integrity between tables.
 - The CHECK constraint validates realistic age ranges.
+
 Creates a supplementary table linking each StudentID to an Age.
 ![success](screenshots/successful_tables.png)
 
